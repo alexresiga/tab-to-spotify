@@ -14,7 +14,6 @@ function getLatest() {
         $('div#main').empty();
         const current = await createTrackElement(data.current, true);
         $('div#main').append(current);
-        // $('div#main').append('<div class="card"><a target="_blank" ' + url + '">' + data.current.split(' - ')[1] + '</a><span id="currently-playing"><i class="fa fa-volume-up" aria-hidden="true"></i></span><br><span>' + data.current.split(' - ')[0] + '<span></div><br>');
         let latest = [];
         data.latest.forEach(e => {
             latest.push(searchTrack(e));
@@ -24,7 +23,6 @@ function getLatest() {
             for (let i = 0; i < data.latest.length; ++i) {
                 const elem = await createTrackElement(data.latest[i], false);
                 $('div#main').append(elem);
-                // $('div#main').append('<div class="card"><a target="_blank" ' + url + '">' + data.latest[i].split(' - ')[1] + '</a><div>' + data.latest[i].split(' - ')[0] + '</div></div>');
             }
         });
     });
