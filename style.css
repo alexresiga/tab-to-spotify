@@ -1,9 +1,10 @@
 body {
-    width: 250px;
+    min-width: 250px;
 }
 
 .card {
     padding: 10px;
+    margin: 10px auto;
     border: 1px solid grey;
     border-radius: 100px;
 }
