@@ -18,8 +18,7 @@ function getLatest() {
         data.latest.forEach(e => {
             latest.push(searchTrack(e));
         });
-        Promise.all(latest).then(async (values) => {
-            console.log(values);
+        Promise.all(latest).then(async () => {
             for (let i = 0; i < data.latest.length; ++i) {
                 const elem = await createTrackElement(data.latest[i], false);
                 $('div#main').append(elem);
@@ -63,7 +62,6 @@ function getSpotifyURL(track) {
 }
 
 function searchTrack(title) {
-    console.log(title);
     const encodedTitle = encodeURIComponent(title.split(' FT. ')[0].split(' - ').join(' ')); // can be improved for 're vs are etc
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
