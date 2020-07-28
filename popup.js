@@ -12,23 +12,23 @@ $(document).ready(async function () {
 function getLatest() {
     $.getJSON('http://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
-        const current = await createTrackElement(1, data.current, true);
+        const current_track = await searchTrack(data.current);
+        const current = createTrackElement(1, data.current, current_track, true);
         $('div#main').append(current);
         let latest = [];
         data.latest.forEach(e => {
             latest.push(searchTrack(e));
         });
-        Promise.all(latest).then(async () => {
+        Promise.all(latest).then((values) => {
             for (let i = 0; i < data.latest.length; ++i) {
-                const elem = await createTrackElement(i + 2, data.latest[i], false);
+                const elem = createTrackElement(i + 2, data.latest[i], values[i],false);
                 $('div#main').append(elem);
             }
         });
     });
 }
 
-async function createTrackElement(index, raw, isCurrent) {
-    const track = await searchTrack(raw);
+function createTrackElement(index, track, spotifyTrack, isCurrent) {
     const card = document.createElement('div');
     card.className = 'card';
     const digit = document.createElement('div');
@@ -41,13 +41,13 @@ async function createTrackElement(index, raw, isCurrent) {
     const title = document.createElement('div');
     title.className = 'title';
     const spotifyAnchor = document.createElement('a');
-    if (getSpotifyURL(track)) {
-        spotifyAnchor.setAttribute('href', getSpotifyURL(track));
+    if (getSpotifyURL(spotifyTrack)) {
+        spotifyAnchor.setAttribute('href', getSpotifyURL(spotifyTrack));
         spotifyAnchor.setAttribute('target', '_blank');
     } else {
         spotifyAnchor.style.textDecoration = "none";
     }
-    const titleText = document.createTextNode(raw.split(' - ')[1]);
+    const titleText = document.createTextNode(track.split(' - ')[1]);
     spotifyAnchor.appendChild(titleText);
     title.appendChild(spotifyAnchor);
     if (isCurrent) {
@@ -64,7 +64,7 @@ async function createTrackElement(index, raw, isCurrent) {
     body.appendChild(title);
     const artist = document.createElement('div');
     artist.className = 'artist';
-    const artistText = document.createTextNode(raw.split(' - ')[0]);
+    const artistText = document.createTextNode(track.split(' - ')[0]);
     artist.appendChild(artistText);
     body.appendChild(artist);
     card.appendChild(body);
