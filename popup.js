@@ -30,7 +30,7 @@ function getLatest() {
 async function createTrackElement(raw, isCurrent) {
     const track = await searchTrack(raw);
     const trackDiv = document.createElement('div');
-    trackDiv.className = "card";
+    trackDiv.className = 'card';
     const spotifyAnchor = document.createElement('a');
     if (getSpotifyURL(track)) {
         spotifyAnchor.setAttribute('href', getSpotifyURL(track));
@@ -40,11 +40,11 @@ async function createTrackElement(raw, isCurrent) {
     trackDiv.appendChild(spotifyAnchor);
     if (isCurrent) {
         const currentyPlayingSpan = document.createElement('span');
-        currentyPlayingSpan.id = "currently-playing";
+        currentyPlayingSpan.id = 'currently-playing';
         const volumeIcon = document.createElement('i');
         volumeIcon.classList.add('fa');
         volumeIcon.classList.add('fa-volume-up');
-        volumeIcon.setAttribute('aria-hidden', "true");
+        volumeIcon.setAttribute('aria-hidden', 'true');
         currentyPlayingSpan.appendChild(volumeIcon);
         trackDiv.appendChild(currentyPlayingSpan);
     }
@@ -78,9 +78,23 @@ function searchTrack(title) {
 
 function currentyPlaying() {
     const a = $('span#currently-playing');
-    a.html('<i class="fa fa-volume-down" aria-hidden="true"></i>');
+    const currentyPlayingSpanDown = document.createElement('span');
+    currentyPlayingSpanDown.id = "currently-playing";
+    const volumeIcon = document.createElement('i');
+    volumeIcon.classList.add('fa');
+    volumeIcon.classList.add('fa-volume-down');
+    volumeIcon.setAttribute('aria-hidden', "true");
+    currentyPlayingSpanDown.appendChild(volumeIcon);
+    a.html(currentyPlayingSpanDown);
     setTimeout(function () {
-        a.html('<i class="fa fa-volume-up" aria-hidden="true"></i>');
+        const currentyPlayingSpanUp = document.createElement('span');
+        currentyPlayingSpanUp.id = "currently-playing";
+        const volumeIcon = document.createElement('i');
+        volumeIcon.classList.add('fa');
+        volumeIcon.classList.add('fa-volume-up');
+        volumeIcon.setAttribute('aria-hidden', "true");
+        currentyPlayingSpanUp.appendChild(volumeIcon);
+        a.html(currentyPlayingSpanUp);
     }, 1500);
 }
 
