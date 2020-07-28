@@ -6,5 +6,10 @@
   "browser_action": {
     "default_popup": "popup.html"
   },
+  "applications": {
+    "gecko": {
+      "id": "resiga.alex@gmail.com"
+    }
+  },
   "manifest_version": 2
 }
