@@ -76,7 +76,7 @@ function getSpotifyURL(track) {
 }
 
 function searchTrack(title) {
-    const encodedTitle = encodeURIComponent(title.replace(/FT.*/,"").split(' - ').join(' ')); // can be improved for 're vs are etc
+    const encodedTitle = encodeURIComponent(title.replace(/F(ea)?T.*/gmi,"").split(' - ').join(' ')); // can be improved for 're vs are etc
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
         type: "GET",
