@@ -12,7 +12,7 @@ $(document).ready(async function () {
 function getLatest() {
     $.getJSON('http://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
-        const current = await createTrackElement(data.current, true);
+        const current = await createTrackElement(1, data.current, true);
         $('div#main').append(current);
         let latest = [];
         data.latest.forEach(e => {
@@ -20,26 +20,38 @@ function getLatest() {
         });
         Promise.all(latest).then(async () => {
             for (let i = 0; i < data.latest.length; ++i) {
-                const elem = await createTrackElement(data.latest[i], false);
+                const elem = await createTrackElement(i + 2, data.latest[i], false);
                 $('div#main').append(elem);
             }
         });
     });
 }
 
-async function createTrackElement(raw, isCurrent) {
+async function createTrackElement(index, raw, isCurrent) {
     const track = await searchTrack(raw);
-    const trackDiv = document.createElement('div');
-    trackDiv.className = 'card';
+    const card = document.createElement('div');
+    card.className = 'card';
+    const digit = document.createElement('div');
+    digit.className = 'digit';
+    const digitText = document.createTextNode(index);
+    digit.appendChild(digitText);
+    card.appendChild(digit);
+    const body = document.createElement('div');
+    body.className = 'body';
+    const title = document.createElement('div');
+    title.className = 'title';
     const spotifyAnchor = document.createElement('a');
     if (getSpotifyURL(track)) {
         spotifyAnchor.setAttribute('href', getSpotifyURL(track));
         spotifyAnchor.setAttribute('target', '_blank');
+    } else {
+        spotifyAnchor.style.textDecoration = "none";
     }
-    const title = document.createTextNode(raw.split(' - ')[1]);
-    spotifyAnchor.appendChild(title);
-    trackDiv.appendChild(spotifyAnchor);
+    const titleText = document.createTextNode(raw.split(' - ')[1]);
+    spotifyAnchor.appendChild(titleText);
+    title.appendChild(spotifyAnchor);
     if (isCurrent) {
+        digit.id = 'first';
         const currentyPlayingSpan = document.createElement('span');
         currentyPlayingSpan.id = 'currently-playing';
         const volumeIcon = document.createElement('i');
@@ -47,15 +59,16 @@ async function createTrackElement(raw, isCurrent) {
         volumeIcon.classList.add('fa-volume-up');
         volumeIcon.setAttribute('aria-hidden', 'true');
         currentyPlayingSpan.appendChild(volumeIcon);
-        trackDiv.appendChild(currentyPlayingSpan);
+        title.appendChild(currentyPlayingSpan);
     }
-    const breakLine = document.createElement('br');
-    trackDiv.appendChild(breakLine);
-    const artistSpan = document.createElement('span');
-    const artist = document.createTextNode(raw.split(' - ')[0]);
-    artistSpan.appendChild(artist);
-    trackDiv.appendChild(artistSpan);
-    return trackDiv;
+    body.appendChild(title);
+    const artist = document.createElement('div');
+    artist.className = 'artist';
+    const artistText = document.createTextNode(raw.split(' - ')[0]);
+    artist.appendChild(artistText);
+    body.appendChild(artist);
+    card.appendChild(body);
+    return card;
 }
 
 function getSpotifyURL(track) {

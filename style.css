@@ -1,14 +1,63 @@
 body {
-    min-width: 250px;
-}
-
-.card {
-    padding: 10px;
-    margin: 10px auto;
-    border: 1px solid grey;
-    border-radius: 100px;
+    min-width: 350px;
+    padding: 0!important;
+    margin: 0!important;
 }
 
 #currently-playing {
     margin-left: 5px;
+}
+
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 3px solid black;
+    padding: 10px 0;
+}
+
+.digit {
+    width: 30px;
+    margin-left: -13px;
+    font-size: 50px;
+    font-weight: 850;
+}
+
+#first.digit {
+    width: 25px;
+    margin-left: -8px;
+}
+
+.body {
+    margin-left: 25px;
+}
+
+.title {
+    font-weight: 900;
+    font-size: 15px;
+}
+
+.artist {
+    font-style: italic;
+    font-weight: bolder;
+}
+
+.card:hover {
+    background-color: black;
+    color: white;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: inherit;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
