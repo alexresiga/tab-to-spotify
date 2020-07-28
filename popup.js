@@ -34,6 +34,7 @@ async function createTrackElement(raw, isCurrent) {
     const spotifyAnchor = document.createElement('a');
     if (getSpotifyURL(track)) {
         spotifyAnchor.setAttribute('href', getSpotifyURL(track));
+        spotifyAnchor.setAttribute('target', '_blank');
     }
     const title = document.createTextNode(raw.split(' - ')[1]);
     spotifyAnchor.appendChild(title);
