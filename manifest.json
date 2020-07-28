@@ -2,7 +2,7 @@
   "name": "tanananify",
   "version": "1.0",
   "description": "Get TANĂNANA radio playing queue and add tracks to spotify library",
-  "permissions": ["activeTab", "<all_urls>"],
+  "permissions": [],
   "browser_action": {
     "default_popup": "popup.html"
   },
