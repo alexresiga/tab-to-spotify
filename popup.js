@@ -80,23 +80,17 @@ function searchTrack(title) {
 
 function currentyPlaying() {
     const a = $('span#currently-playing');
-    const currentyPlayingSpanDown = document.createElement('span');
-    currentyPlayingSpanDown.id = "currently-playing";
-    const volumeIcon = document.createElement('i');
-    volumeIcon.classList.add('fa');
-    volumeIcon.classList.add('fa-volume-down');
-    volumeIcon.setAttribute('aria-hidden', "true");
-    currentyPlayingSpanDown.appendChild(volumeIcon);
-    a.html(currentyPlayingSpanDown);
+    const volumeIconDown = document.createElement('i');
+    volumeIconDown.classList.add('fa');
+    volumeIconDown.classList.add('fa-volume-down');
+    volumeIconDown.setAttribute('aria-hidden', "true");
+    a.html(volumeIconDown);
     setTimeout(function () {
-        const currentyPlayingSpanUp = document.createElement('span');
-        currentyPlayingSpanUp.id = "currently-playing";
-        const volumeIcon = document.createElement('i');
-        volumeIcon.classList.add('fa');
-        volumeIcon.classList.add('fa-volume-up');
-        volumeIcon.setAttribute('aria-hidden', "true");
-        currentyPlayingSpanUp.appendChild(volumeIcon);
-        a.html(currentyPlayingSpanUp);
+        const volumeIconUp = document.createElement('i');
+        volumeIconUp.classList.add('fa');
+        volumeIconUp.classList.add('fa-volume-up');
+        volumeIconUp.setAttribute('aria-hidden', "true");
+        a.html(volumeIconUp);
     }, 1500);
 }
 
