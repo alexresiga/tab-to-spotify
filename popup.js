@@ -3,6 +3,8 @@ const CLIENT_SECRET = 'b1c310e06b124c44b56141a9d5a24d39';
 let ACCESS_TOKEN = '';
 
 $(document).ready(async function () {
+    // getGuerrilla();
+    $('#tananana-tab').css('display', 'block');
     ACCESS_TOKEN = await getAccessToken();
     currentyPlaying();
     setInterval(currentyPlaying, 3000);
@@ -11,18 +13,18 @@ $(document).ready(async function () {
 
 function getLatest() {
     $.getJSON('http://tananana.ro/live/meta.php', async function (data) {
-        $('div#main').empty();
+        $('div#tananana-tab').empty();
         const current_track = await searchTrack(data.current);
         const current = createTrackElement(1, data.current, current_track, true);
-        $('div#main').append(current);
+        $('div#tananana-tab').append(current);
         let latest = [];
         data.latest.forEach(e => {
             latest.push(searchTrack(e));
         });
         Promise.all(latest).then((values) => {
             for (let i = 0; i < data.latest.length; ++i) {
-                const elem = createTrackElement(i + 2, data.latest[i], values[i],false);
-                $('div#main').append(elem);
+                const elem = createTrackElement(i + 2, data.latest[i], values[i], false);
+                $('div#tananana-tab').append(elem);
             }
         });
     });
@@ -76,7 +78,7 @@ function getSpotifyURL(track) {
 }
 
 function searchTrack(title) {
-    const encodedTitle = encodeURIComponent(title.replace(/F(ea)?T.*/gmi,"").split(' - ').join(' ')); // can be improved for 're vs are etc
+    const encodedTitle = encodeURIComponent(title.replace(/F(ea)?T.*/gmi, "").split(' - ').join(' ')); // can be improved for 're vs are etc
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
         type: "GET",
@@ -119,3 +121,43 @@ function getAccessToken() {
         }
     });
 }
+
+$(document).ready(function () {
+    $('.tablinks').click(function () {
+        console.log($(this));
+        // Declare all variables
+        var i, tabcontent, tablinks;
+
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        console.log('#' + $(this).attr('id')+ '-tab');
+        $('#' + $(this).attr('id') + '-tab').css("display", "block");
+        $(this).addClass("active");
+    });
+});
+
+function getGuerrilla() {
+    $.ajax({
+        url: "http://www.guerrillaradio.ro/player/data/id3.txt",
+        dataType: "text",
+        type: "GET",
+        succcess: function(data) {
+            console.log(data);
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
+}
+
