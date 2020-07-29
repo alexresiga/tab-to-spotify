@@ -1,4 +1,5 @@
 body {
+    font-family: 'Montserrat';
     min-width: 350px;
     padding: 0!important;
     margin: 0!important;
@@ -18,14 +19,14 @@ body {
 
 .digit {
     width: 30px;
-    margin-left: -13px;
+    margin-left: -12px;
     font-size: 50px;
-    font-weight: 850;
+    font-weight: 800;
 }
 
 #first.digit {
     width: 25px;
-    margin-left: -8px;
+    margin-left: -5px;
 }
 
 .body {
@@ -33,13 +34,13 @@ body {
 }
 
 .title {
-    font-weight: 900;
+    font-weight: 850;
     font-size: 15px;
 }
 
 .artist {
     font-style: italic;
-    font-weight: bolder;
+    font-weight: 600;
 }
 
 .card:hover {

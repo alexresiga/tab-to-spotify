@@ -52,6 +52,10 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
     title.appendChild(spotifyAnchor);
     if (isCurrent) {
         digit.id = 'first';
+        const tanananaAnchor = document.createElement('a');
+        tanananaAnchor.setAttribute('href', "http://tananana.ro");
+        tanananaAnchor.setAttribute('title', "go to TANANANA website");
+        tanananaAnchor.setAttribute('target', '_blank');
         const currentyPlayingSpan = document.createElement('span');
         currentyPlayingSpan.id = 'currently-playing';
         const volumeIcon = document.createElement('i');
@@ -59,7 +63,8 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
         volumeIcon.classList.add('fa-volume-up');
         volumeIcon.setAttribute('aria-hidden', 'true');
         currentyPlayingSpan.appendChild(volumeIcon);
-        title.appendChild(currentyPlayingSpan);
+        tanananaAnchor.append(currentyPlayingSpan);
+        title.appendChild(tanananaAnchor);
     }
     body.appendChild(title);
     const artist = document.createElement('div');
