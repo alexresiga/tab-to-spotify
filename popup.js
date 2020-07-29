@@ -21,7 +21,7 @@ function getLatest() {
         });
         Promise.all(latest).then((values) => {
             for (let i = 0; i < data.latest.length; ++i) {
-                const elem = createTrackElement(i + 2, data.latest[i], values[i],false);
+                const elem = createTrackElement(i + 2, data.latest[i], values[i], false);
                 $('div#main').append(elem);
             }
         });
