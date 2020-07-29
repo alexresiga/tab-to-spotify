@@ -3,14 +3,16 @@ Google Chrome extension to get [TANĂNANA](http://tananana.ro/) radio playing qu
 
 ## how to use
 
-`git clone https://github.com/alexresiga/tab-to-spotify.git`
+~`git clone https://github.com/alexresiga/tab-to-spotify.git`~
 
-open `Google Chrome` and enter `chrome://extensions`
+~open `Google Chrome` and enter `chrome://extensions`~
 
-enable `Developer mode`
+~enable `Developer mode`~
 
-click `Load unpacked`
+~click `Load unpacked`~
 
-browse to clone location and select folder
+~browse to clone location and select folder~
+
+download it from the [chrome web store](https://chrome.google.com/webstore/detail/tanananify/pocannpmockpnhmcfndmgliobheghoka/)
 
 enjoy
