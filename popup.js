@@ -64,8 +64,16 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
     body.appendChild(title);
     const artist = document.createElement('div');
     artist.className = 'artist';
+    const spotifyArtistAnchor = document.createElement('a');
+    if (getArtistURL(spotifyTrack)) {
+        spotifyArtistAnchor.setAttribute('href', getArtistURL(spotifyTrack));
+        spotifyArtistAnchor.setAttribute('target', '_blank');
+    } else {
+        spotifyArtistAnchor.style.textDecoration = "none";
+    }
     const artistText = document.createTextNode(track.split(' - ')[0]);
-    artist.appendChild(artistText);
+    spotifyArtistAnchor.appendChild(artistText);
+    artist.appendChild(spotifyArtistAnchor);
     body.appendChild(artist);
     card.appendChild(body);
     return card;
@@ -73,6 +81,10 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
 
 function getSpotifyURL(track) {
     return track.tracks.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
+}
+
+function getArtistURL(track) {
+    return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify : '';
 }
 
 function searchTrack(title) {
