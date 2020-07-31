@@ -92,8 +92,17 @@ function getArtistURL(track) {
     return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify : '';
 }
 
+function sanitizeTitle(title) {
+    // can be improved for 're vs are etc
+    return title
+            .replace(/F(ea)?T.*/gmi,"")
+            .replace(/\(?Radio Edit\)?/gmi, "")
+            .split(' - ')
+            .join(' ');
+}
+
 function searchTrack(title) {
-    const encodedTitle = encodeURIComponent(title.replace(/F(ea)?T.*/gmi,"").split(' - ').join(' ')); // can be improved for 're vs are etc
+    const encodedTitle = encodeURIComponent(sanitizeTitle((title)));
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
         type: "GET",
