@@ -12,23 +12,27 @@ $(document).ready(async function () {
 function getLatest() {
     $.getJSON('http://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
-        const current_track = await searchTrack(data.current);
-        const current = createTrackElement(1, data.current, current_track, true);
+        const currentTrack = await searchTrack(data.current);
+        const currentArtist = await searchArtist(data.current);
+        const current = createTrackElement(1, data.current, currentTrack, currentArtist, true);
         $('div#main').append(current);
-        let latest = [];
+        let latestTracks = [];
+        let latestArtists = [];
         data.latest.forEach(e => {
-            latest.push(searchTrack(e));
+            latestTracks.push(searchTrack(e));
+            latestArtists.push(searchArtist(e));
         });
-        Promise.all(latest).then((values) => {
-            for (let i = 0; i < data.latest.length; ++i) {
-                const elem = createTrackElement(i + 2, data.latest[i], values[i], false);
-                $('div#main').append(elem);
-            }
-        });
+        let tracksPromise = Promise.all(latestTracks);
+        let artistsPromise = Promise.all(latestArtists);
+        const [tracks, artists] = await Promise.all([tracksPromise, artistsPromise]);
+        for (let i = 0; i < data.latest.length; ++i) {
+            const elem = createTrackElement(i + 2, data.latest[i], tracks[i], artists[i], false);
+            $('div#main').append(elem);
+        }
     });
 }
 
-function createTrackElement(index, track, spotifyTrack, isCurrent) {
+function createTrackElement(index, track, spotifyTrack, spotifyArtist, isCurrent) {
     const card = document.createElement('div');
     card.className = 'card';
     const digit = document.createElement('div');
@@ -41,8 +45,9 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
     const title = document.createElement('div');
     title.className = 'title';
     const spotifyAnchor = document.createElement('a');
-    if (getSpotifyURL(spotifyTrack)) {
-        spotifyAnchor.setAttribute('href', getSpotifyURL(spotifyTrack));
+    const trackURL = getSpotifyURL(spotifyTrack);
+    if (trackURL) {
+        spotifyAnchor.setAttribute('href', trackURL);
         spotifyAnchor.setAttribute('target', '_blank');
     } else {
         spotifyAnchor.style.textDecoration = "none";
@@ -70,8 +75,9 @@ function createTrackElement(index, track, spotifyTrack, isCurrent) {
     const artist = document.createElement('div');
     artist.className = 'artist';
     const spotifyArtistAnchor = document.createElement('a');
-    if (getArtistURL(spotifyTrack)) {
-        spotifyArtistAnchor.setAttribute('href', getArtistURL(spotifyTrack));
+    const artistURL = getArtistURL(spotifyTrack, spotifyArtist);
+    if (artistURL) {
+        spotifyArtistAnchor.setAttribute('href', artistURL);
         spotifyArtistAnchor.setAttribute('target', '_blank');
     } else {
         spotifyArtistAnchor.style.textDecoration = "none";
@@ -88,23 +94,39 @@ function getSpotifyURL(track) {
     return track.tracks.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
 }
 
-function getArtistURL(track) {
-    return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify : '';
+function getArtistURL(track, artist) {
+    return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify :
+        artist.artists.items[0]?.external_urls.spotify ? artist.artists.items[0]?.external_urls.spotify : '';
 }
 
 function sanitizeTitle(title) {
     // can be improved for 're vs are etc
     return title
-            .replace(/F(ea)?T.*/gmi,"")
-            .replace(/\(?Radio Edit\)?/gmi, "")
-            .split(' - ')
-            .join(' ');
+        .replace(/F(ea)?T.*/gmi, "")
+        .replace(/\(?Radio Edit\)?/gmi, "")
+        .split(' - ')
+        .join(' ');
 }
 
 function searchTrack(title) {
     const encodedTitle = encodeURIComponent(sanitizeTitle((title)));
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
+        type: "GET",
+        contentType: "application/x-www-form-urlencoded",
+        headers: {
+            "Authorization": "Bearer " + ACCESS_TOKEN.access_token
+        },
+        data: {
+            "grant_type": "client_credentials",
+        }
+    });
+}
+
+function searchArtist(title) {
+    const artist = title.split(' - ')[0];
+    return $.ajax({
+        url: "https://api.spotify.com/v1/search?q=" + artist + "&type=artist",
         type: "GET",
         contentType: "application/x-www-form-urlencoded",
         headers: {
