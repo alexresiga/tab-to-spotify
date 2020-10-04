@@ -103,7 +103,7 @@ function sanitizeTitle(title) {
     // can be improved for 're vs are etc
     return title
         .replace(/F(ea)?T.*/gmi, "")
-        .replace(/\(?Radio Edit\)?/gmi, "")
+        .replace(/\(.*\)/gmi, "")
         .split(' - ')
         .join(' ');
 }
