@@ -91,12 +91,16 @@ function createTrackElement(index, track, spotifyTrack, spotifyArtist, isCurrent
 }
 
 function getSpotifyURL(track) {
-    return track.tracks.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
+    if (track !== "") {
+        return track.tracks.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
+    }
 }
 
 function getArtistURL(track, artist) {
-    return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify :
-        artist.artists.items[0]?.external_urls.spotify ? artist.artists.items[0]?.external_urls.spotify : '';
+    if (track !== "" && artist !== "") {
+        return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify :
+            artist.artists.items[0]?.external_urls.spotify ? artist.artists.items[0]?.external_urls.spotify : '';
+    }
 }
 
 function sanitizeTitle(title) {
