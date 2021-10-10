@@ -4,8 +4,8 @@ let ACCESS_TOKEN = '';
 
 $(document).ready(async function () {
     ACCESS_TOKEN = await getAccessToken();
-    currentyPlaying();
-    setInterval(currentyPlaying, 3000);
+    currentlyPlaying();
+    setInterval(currentlyPlaying, 3000);
     getLatest();
 });
 
@@ -61,14 +61,14 @@ function createTrackElement(index, track, spotifyTrack, spotifyArtist, isCurrent
         tanananaAnchor.setAttribute('href', "http://tananana.ro");
         tanananaAnchor.setAttribute('title', "go to TANANANA website");
         tanananaAnchor.setAttribute('target', '_blank');
-        const currentyPlayingSpan = document.createElement('span');
-        currentyPlayingSpan.id = 'currently-playing';
+        const currentlyPlayingSpan = document.createElement('span');
+        currentlyPlayingSpan.id = 'currently-playing';
         const volumeIcon = document.createElement('i');
         volumeIcon.classList.add('fa');
         volumeIcon.classList.add('fa-volume-up');
         volumeIcon.setAttribute('aria-hidden', 'true');
-        currentyPlayingSpan.appendChild(volumeIcon);
-        tanananaAnchor.append(currentyPlayingSpan);
+        currentlyPlayingSpan.appendChild(volumeIcon);
+        tanananaAnchor.append(currentlyPlayingSpan);
         title.appendChild(tanananaAnchor);
     }
     body.appendChild(title);
@@ -142,7 +142,7 @@ function searchArtist(title) {
     });
 }
 
-function currentyPlaying() {
+function currentlyPlaying() {
     const a = $('span#currently-playing');
     const volumeIconDown = document.createElement('i');
     volumeIconDown.classList.add('fa');
