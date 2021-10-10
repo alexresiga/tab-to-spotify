@@ -10,10 +10,9 @@ $(document).ready(async function () {
 });
 
 function getLatest() {
-    $.getJSON('http://tananana.ro/live/meta.php', async function (data) {
+    $.getJSON('https://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
-        const currentTrack = await searchTrack(data.current);
-        const currentArtist = await searchArtist(data.current);
+        const [currentTrack, currentArtist] = await Promise.all([searchTrack(data.current), searchArtist(data.current)]);
         const current = createTrackElement(1, data.current, currentTrack, currentArtist, true);
         $('div#main').append(current);
         let latestTracks = [];
