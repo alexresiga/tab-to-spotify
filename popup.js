@@ -90,13 +90,13 @@ function createTrackElement(index, track, spotifyTrack, spotifyArtist, isCurrent
 }
 
 function getSpotifyURL(track) {
-    if (track !== "") {
-        return track.tracks.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
+    if (checkDefinedTrack(track)) {
+        return track.tracks?.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
     }
 }
 
 function getArtistURL(track, artist) {
-    if (track !== "" && artist !== "") {
+    if (checkDefinedTrack(track) && checkDefinedArtist(artist)) {
         return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify :
             artist.artists.items[0]?.external_urls.spotify ? artist.artists.items[0]?.external_urls.spotify : '';
     }
@@ -113,6 +113,7 @@ function sanitizeTitle(title) {
 
 function searchTrack(title) {
     const encodedTitle = encodeURIComponent(sanitizeTitle((title)));
+    if (encodedTitle === "") return;
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + encodedTitle + "&type=track",
         type: "GET",
@@ -128,6 +129,7 @@ function searchTrack(title) {
 
 function searchArtist(title) {
     const artist = title.split(' - ')[0];
+    if (artist === "") return;
     return $.ajax({
         url: "https://api.spotify.com/v1/search?q=" + artist + "&type=artist",
         type: "GET",
@@ -169,4 +171,12 @@ function getAccessToken() {
             "grant_type": "client_credentials",
         }
     });
+}
+
+function checkDefinedTrack(track) {
+    return track !== null && track !== undefined && track.tracks !== null;
+}
+
+function checkDefinedArtist(artist) {
+    return artist !== null && artist !== undefined && artist.artists !== null;
 }
