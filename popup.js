@@ -90,13 +90,13 @@ function createTrackElement(index, track, spotifyTrack, spotifyArtist, isCurrent
 }
 
 function getSpotifyURL(track) {
-    if (checkDefinedTrack(track)) {
+    if (checkDefinedProperty(track, "tracks")) {
         return track.tracks?.items[0]?.external_urls.spotify ? track.tracks.items[0]?.external_urls.spotify : '';
     }
 }
 
 function getArtistURL(track, artist) {
-    if (checkDefinedTrack(track) && checkDefinedArtist(artist)) {
+    if (checkDefinedProperty(track, "tracks") && checkDefinedProperty(artist, "artists")) {
         return track.tracks.items[0]?.artists[0]?.external_urls.spotify ? track.tracks.items[0]?.artists[0]?.external_urls.spotify :
             artist.artists.items[0]?.external_urls.spotify ? artist.artists.items[0]?.external_urls.spotify : '';
     }
@@ -173,10 +173,6 @@ function getAccessToken() {
     });
 }
 
-function checkDefinedTrack(track) {
-    return track !== null && track !== undefined && track.tracks !== null;
-}
-
-function checkDefinedArtist(artist) {
-    return artist !== null && artist !== undefined && artist.artists !== null;
+function checkDefinedProperty(obj, property) {
+    return obj !== null && obj !== undefined && obj[property] !== null;
 }
