@@ -10,7 +10,7 @@ $(document).ready(async function () {
 });
 
 function getLatest() {
-    $.getJSON('testData/empty.json', async function (data) {
+    $.getJSON('https://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
         if (isEmpty(data)) {
             $('div#main').addClass('errorBody');
