@@ -63,3 +63,15 @@ a:link {
 a:hover {
     text-decoration: underline;
 }
+
+.errorBody{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: larger;
+}
+
+#errorSpan {
+  font-style: italic;
+  text-decoration: underline;
+}

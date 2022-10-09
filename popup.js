@@ -12,6 +12,11 @@ $(document).ready(async function () {
 function getLatest() {
     $.getJSON('https://tananana.ro/live/meta.php', async function (data) {
         $('div#main').empty();
+        if (isEmpty(data)) {
+            $('div#main').addClass('errorBody');
+            const errorMessage = createErrorMessage();
+            $('div#main').append(errorMessage);
+        }
         const [currentTrack, currentArtist] = await Promise.all([searchTrack(data.current), searchArtist(data.current)]);
         const current = createTrackElement(1, data.current, currentTrack, currentArtist, true);
         $('div#main').append(current);
@@ -175,4 +180,37 @@ function getAccessToken() {
 
 function checkDefinedProperty(obj, property) {
     return obj !== null && obj !== undefined && obj[property] !== null;
+}
+
+function isEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object
+}
+
+function createErrorMessage() {
+    const error = document.createElement('div');
+    // header
+    const errorHeader = document.createElement('div');
+    const errorHeaderText = document.createTextNode('Oops! No data available.');
+    errorHeader.appendChild(errorHeaderText);
+    //header end
+    // body
+    const errorText = document.createElement('div');
+    const errorTextContent = document.createTextNode('Go check ');
+    // anchor
+    const tanananaAnchor = document.createElement('a');
+    const tanananaSpan = document.createElement('span');
+    tanananaSpan.id = "errorSpan";
+    const tanananaText = document.createTextNode('TANANANA.ro');
+    tanananaSpan.appendChild(tanananaText);
+    tanananaAnchor.setAttribute('href', "https://tananana.ro");
+    tanananaAnchor.setAttribute('title', "TANANANA website");
+    tanananaAnchor.setAttribute('target', '_blank');
+    tanananaAnchor.appendChild(tanananaSpan);
+    // anchor end
+    errorText.append(errorTextContent);
+    errorText.appendChild(tanananaAnchor);
+    // body end
+    error.appendChild(errorHeader);
+    error.appendChild(errorText);
+    return error;
 }
