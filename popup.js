@@ -10,12 +10,13 @@ $(document).ready(async function () {
 });
 
 function getLatest() {
-    $.getJSON('https://tananana.ro/live/meta.php', async function (data) {
+    $.getJSON('testData/empty.json', async function (data) {
         $('div#main').empty();
         if (isEmpty(data)) {
             $('div#main').addClass('errorBody');
             const errorMessage = createErrorMessage();
             $('div#main').append(errorMessage);
+            return;
         }
         const [currentTrack, currentArtist] = await Promise.all([searchTrack(data.current), searchArtist(data.current)]);
         const current = createTrackElement(1, data.current, currentTrack, currentArtist, true);
@@ -108,6 +109,7 @@ function getArtistURL(track, artist) {
 }
 
 function sanitizeTitle(title) {
+    if (title === null || title === undefined || title === '') return;
     // can be improved for 're vs are etc
     return title
         .replace(/F(ea)?T.*/gmi, "")
