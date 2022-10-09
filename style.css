@@ -14,12 +14,11 @@ body {
     flex-direction: row;
     align-items: center;
     border-bottom: 3px solid black;
-    padding: 10px 0;
+    padding: 10px 5px;
 }
 
 .digit {
     width: 30px;
-    margin-left: -12px;
     font-size: 50px;
     font-weight: 800;
     text-shadow: 2px 2px #FF0000;
@@ -27,7 +26,6 @@ body {
 
 #first.digit {
     width: 25px;
-    margin-left: -5px;
 }
 
 .body {
